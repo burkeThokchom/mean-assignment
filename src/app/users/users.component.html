@@ -1,0 +1,99 @@
+<div *ngIf="isLoading" style="text-align: center;">
+    <mat-spinner></mat-spinner>
+</div>
+
+<div class="user-wrp-main g-dis-flex" *ngIf="!isLoading">
+    <div class="user-list-wrpp halfWidth">
+        <div class="searchHolder">
+            <div class="search-filter">
+                <div class="search">
+                    <i class="fas fa-search"></i>
+                    <input id="search-plans" type="text" [(ngModel)] = "searchValue" placeholder="Search" (keyup)=handleKeyPress()/>
+                </div>
+               
+            </div>
+        </div>
+        <div class="pd-tb-30">
+            <button class="createButton" (click)="addUser()">Add User</button>
+        </div>
+    </div>
+    <!-- Start -->
+    <div class="dataContainer">
+        <div class="hasNoDataContainer" *ngIf="totalItems === 0">
+            <h3>No user added so far. Pls feel free to add.</h3>
+
+        </div>
+        <div class="hasDataContainer" *ngIf="totalItems > 0">
+            <div>
+                <table mat-table [dataSource]="dataSourceUser" matSort class="wd-100 tableMainCls">
+                    <ng-container matColumnDef="First Name">
+                        <th mat-header-cell *matHeaderCellDef class="tx-left tableColHdr">First Name </th>
+                        <td mat-cell *matCellDef="let row;" class="tx-left"> {{row.firstName}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Last Name">
+                        <th mat-header-cell *matHeaderCellDef class="tx-left tableColHdr">Last Name </th>
+                        <td mat-cell *matCellDef="let row;" class="tx-left"> {{row.lastName}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Email">
+                        <th mat-header-cell *matHeaderCellDef class="tx-left tableColHdr">Email </th>
+                        <td mat-cell *matCellDef="let row;" class="tx-left"> {{row.email}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Address">
+                        <th mat-header-cell *matHeaderCellDef class="tx-left tableColHdr">Address </th>
+                        <td mat-cell *matCellDef="let row;" class="tx-left g-capitalize"> 
+                            <div>{{row.address.address_line_1}},</div>
+                            <div>{{row.address.address_line_2}},</div>
+                            <div>{{row.address.city}},</div>
+                            <div>{{row.address.zipcode}},</div>
+                            <div>{{row.address.state}}</div>
+                         </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Contact">
+                        <th mat-header-cell *matHeaderCellDef class="tx-left tableColHdr">Contact</th>
+                        <td mat-cell *matCellDef="let row;" class="tx-left"> 
+                            <div *ngFor="let num of row.contact">{{num}}</div>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Education">
+                        <th mat-header-cell *matHeaderCellDef class="tx-left tableColHdr">Education</th>
+                        <td mat-cell *matCellDef="let row;" class="tx-left"> 
+                            <div *ngFor="let edu of row.eduProgress">
+                                <div>Score: {{edu.score}}</div>
+                                <div>Class: {{edu.class}}</div>
+                                <div>School: {{edu.school}}</div>
+                            </div>
+                        </td>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="Actions">
+                        <th mat-header-cell *matHeaderCellDef class="tx-left tableColHdr"> </th>
+                        <td mat-cell *matCellDef="let row;" class="tx-left"> 
+                            <button (click)="popupEditModal(row)" class="actionButton a-btn-left">Edit</button>
+                            <button (click)="openDeleteModal(row._id)" class="actionButton a-btn-right">Delete</button>
+                        </td>
+                    </ng-container>
+    
+                    <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
+                </table>
+            </div>
+            <div class="paginationHoldr">
+                <mat-paginator 
+                    [length]="totalItems" 
+                    [pageSize]="pageSize" 
+                    [pageSizeOptions]="pageSizeOptions" 
+                    [pageIndex]="page - 1"
+                    (page)="onPageEvent($event)"
+                    >            
+                </mat-paginator>
+            </div>
+        </div>
+    </div>
+
+    <!-- end -->
+</div>

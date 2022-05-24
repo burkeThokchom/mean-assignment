@@ -1,0 +1,142 @@
+<div *ngIf="isLoading === true" style="text-align: center;">
+    <mat-spinner></mat-spinner>
+</div>
+<div *ngIf="data.isDelete">
+    <h4 >{{data.isDelete ? 'Delete User': ''}}</h4>
+    <div class="halfWidth g-dis-flex">
+        <button (click)="closeDialog()">No</button>
+        <button (click)="deleteUser()">Yes</button>
+    </div>
+</div>
+<div *ngIf="isLoading === false && !data.isDelete">
+    <h4 >{{data.isEdit ? 'Edit ': 'Add '}} User</h4>
+    
+    <div>
+        <form [formGroup]="addUserForm" class="col-md-12 g-dis-flex g-flex-wrap ">
+            <div class="col-md-12 g-dis-flex g-flex-wrap ">
+                <div class="a-add-field-wrp col-md-6 g-dis-flex g-flex-wrap ">
+                    <mat-form-field appearance="fill">
+                      <mat-label>First Name</mat-label>
+                      <input matInput placeholder="first name" formControlName="firstName" required>
+                      <mat-error *ngIf="addUserForm.get('firstName').dirty || addUserForm.get('firstName').touched && addUserForm.get('firstName').hasError('required')"  ></mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="a-add-field-wrp col-md-6 g-dis-flex g-flex-wrap ">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Last Name</mat-label>
+                      <input matInput placeholder="last name" formControlName="lastName" required>
+                      <mat-error *ngIf="addUserForm.get('lastName').dirty || addUserForm.get('lastName').touched && addUserForm.get('lastName').hasError('required')"  ></mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col-md-12 g-dis-flex g-flex-wrap ">
+                <div class="a-add-field-wrp col-md-12 g-dis-flex g-flex-wrap ">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Email</mat-label>
+                      <input matInput placeholder="email" formControlName="email" required>
+                      <mat-error *ngIf="addUserForm.get('email').dirty || addUserForm.get('email').touched && addUserForm.get('email').hasError('required')"  ></mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col-md-12 g-dis-flex g-flex-wrap">
+                <h5>Address</h5>
+            </div>
+            <div formGroupName="address" class="col-md-12 g-dis-flex g-flex-wrap ">
+                
+                <div class="a-add-field-wrp col-md-6 g-dis-flex g-flex-wrap ">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Address Line 1</mat-label>
+                      <input matInput placeholder="address line 1" formControlName="address_line_1" required>
+                      <!-- <mat-error *ngIf="addUserForm.get('address_line_1').dirty || addUserForm.get('address_line_1').touched && addUserForm.get('address_line_1').hasError('required')"  ></mat-error> -->
+                    </mat-form-field>
+                </div>
+
+                <div class="a-add-field-wrp col-md-6 g-dis-flex g-flex-wrap ">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Address Line 2</mat-label>
+                      <input matInput placeholder="address line 2" formControlName="address_line_2" required>
+                      <!-- <mat-error *ngIf="addUserForm.get('address_line_1').dirty || addUserForm.get('address_line_1').touched && addUserForm.get('address_line_1').hasError('required')"  ></mat-error> -->
+                    </mat-form-field>
+                </div>
+             </div>
+             <div formGroupName="address" class="col-md-12 g-dis-flex g-flex-wrap ">
+                <div class="a-add-field-wrp col-md-6 g-dis-flex g-flex-wrap ">
+                    <mat-form-field appearance="fill">
+                      <mat-label>City</mat-label>
+                      <input matInput placeholder="city" formControlName="city" required>
+                      <!-- <mat-error *ngIf="addUserForm.get('address_line_1').dirty || addUserForm.get('address_line_1').touched && addUserForm.get('address_line_1').hasError('required')"  ></mat-error> -->
+                    </mat-form-field>
+                </div>
+
+                <div class="a-add-field-wrp col-md-6 g-dis-flex g-flex-wrap ">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Zipcode</mat-label>
+                      <input matInput placeholder="zipcode" formControlName="zipcode" required>
+                      <!-- <mat-error *ngIf="addUserForm.get('address_line_1').dirty || addUserForm.get('address_line_1').touched && addUserForm.get('address_line_1').hasError('required')"  ></mat-error> -->
+                    </mat-form-field>
+                </div>
+
+                <div class="a-add-field-wrp col-md-6 g-dis-flex g-flex-wrap ">
+                    <mat-form-field appearance="fill">
+                      <mat-label>State</mat-label>
+                      <input matInput placeholder="state" formControlName="state" required>
+                      <!-- <mat-error *ngIf="addUserForm.get('address_line_1').dirty || addUserForm.get('address_line_1').touched && addUserForm.get('address_line_1').hasError('required')"  ></mat-error> -->
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="g-dis-flex col-md-12 g-dis wrap">
+                    <h5>Contact</h5>
+                    <div class="a-add-button">
+                        <button (click)="loadContactForm()" class="a-add-btn-cls">Add Contact</button>
+                    </div>
+            </div>
+            <div formArrayName="contact" *ngFor="let val of contactFormArray.controls; let i=index">
+                <!-- <div formGroupName="i"> -->
+                <div >
+                    <button class="g-text-right" (click)="removeContact(i)">X</button>
+                    <div class="a-add-field-wrp col-md-6 g-dis-flex g-flex-wrap ">
+                        <mat-form-field appearance="fill">
+                          <mat-label>Enter contact</mat-label>
+                          <input matInput placeholder="" formControlName="{{i}}" required>
+                        </mat-form-field>
+                    </div>
+                </div>
+                
+
+            </div>
+
+        
+            <div class="g-dis-flex col-md-12 g-dis wrap">
+                <h5>Educational Details</h5>
+                <button (click)="loadEducationForm()" class="a-add-btn-cls">Add Educational Details</button>
+            </div>
+            <div formArrayName="eduProgress" *ngFor="let val of educationalFormArray.controls; let j=index">
+                <div [formGroupName]="j">
+                    <button class="g-text-right" (click)="removeEducationForm(j)">X</button>
+                    <div class="a-add-field-wrp col-md-6 g-dis-flex g-flex-wrap ">
+                        <mat-form-field appearance="fill">
+                          <mat-label>Enter Score</mat-label>
+                          <input matInput placeholder="" formControlName="score" required>
+                        </mat-form-field>
+                    </div>
+                    <div class="a-add-field-wrp col-md-6 g-dis-flex g-flex-wrap ">
+                        <mat-form-field appearance="fill">
+                          <mat-label>Enter Class</mat-label>
+                          <input matInput placeholder="" formControlName="class" required>
+                        </mat-form-field>
+                    </div>
+                    <div class="a-add-field-wrp col-md-6 g-dis-flex g-flex-wrap ">
+                        <mat-form-field appearance="fill">
+                          <mat-label>Enter School</mat-label>
+                          <input matInput placeholder="" formControlName="school" required>
+                        </mat-form-field>
+                    </div>
+                </div>
+      
+
+            </div>
+        </form>
+        <button (click)="saveUser()">Save</button>
+    </div>
+</div>
+
