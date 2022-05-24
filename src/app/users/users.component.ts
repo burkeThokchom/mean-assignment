@@ -21,7 +21,7 @@ export class UsersComponent implements OnInit {
   isLoading: boolean = false;
   isTyped: boolean = false;
   page: number = 1;
-  pageSizeOptions: number[] = [5, 10, 15, 20];
+  pageSizeOptions: number[] = [1, 5, 10, 15, 20];
   pageSize: number = 5;
   totalItems: number = 0;
   dataSourceUser: MatTableDataSource<any> | undefined;

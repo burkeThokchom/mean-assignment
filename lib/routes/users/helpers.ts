@@ -18,8 +18,6 @@ export class UserHelpers {
             matchQuery.push({contact: {$regex: searchValue}});
             matchQuery.push({"eduProgress.school": {$regex: searchValue, $options: "i"}});
         }
-
-        console.log(matchQuery)
         if(matchQuery.length > 0){
             return Users.aggregate([
                 // {
@@ -27,8 +25,7 @@ export class UserHelpers {
                 // },
                 {
                     $match: {
-                        $or: matchQuery,
-                        // $or:[...matchQuery, {"eduProgress.school":{$regex: searchValue}}]
+                        $or: matchQuery
                     }
                 },
                 // {
@@ -49,8 +46,12 @@ export class UserHelpers {
                         data: [
                             {
                                 $skip: skips,
-                            }, {
+                            }, 
+                            {
                                 $limit: limit
+                            },
+                            {
+                                $sort: {createdAt: -1}
                             }
                         ], count: [
                             {
@@ -71,6 +72,9 @@ export class UserHelpers {
                                 $skip: skips,
                             }, {
                                 $limit: limit
+                            },
+                            {
+                                $sort: {createdAt: -1}
                             }
                         ], count: [
                             {
@@ -85,14 +89,12 @@ export class UserHelpers {
        
     }
 
-    public static findById = async (id)=>{
+    public static findById = async (id:string)=>{
         return Users.findById(id);
     }
 
-    public static updateOne = async(document)=>{
-        const update = {
-            ...document
-        }
+    public static updateOne = async(document:any)=>{
+        const update = {...document}
         return Users.findByIdAndUpdate(update._id, update, {new: true} );
     }
 
